@@ -27,5 +27,40 @@
         });
 
         console.log('map==>'+ b);
+        console.log('map==>' + a);
+
+        function Stu( name, age ){
+            this.name = name;
+            this.age = age;
+        }
+        var stus = [];
+        for( var i = 0; i < 5; i++ ){
+            stus.push(new Stu('su_' + i , 31 ));
+        }
+
+        console.log(stus);
+
+        var stus_map = stus.map(function( item ){
+            if( item.name !== 'su_4'){
+                item['age'] += 21;
+                item['sky'] = 'blue';
+
+            }
+            return item;
+        });
+        console.log(stus_map);
+        console.log(stus);
     })('map');
+
+    //==============reduce===============
+    (function(){
+        var arr = [ 'a','b','c','d' ];
+        var brr = arr.map(function( item, index ){
+            return item +'x0'
+        });
+
+        brr.reduce(function(){});
+        console.log(brr);
+
+    })('reduce');
 })();
