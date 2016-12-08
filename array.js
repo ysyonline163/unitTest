@@ -146,5 +146,68 @@
         });
         console.log(deple_obj);
     })('deple obj');
+    //=============realize ===============
+    (function(){
+        log(arguments[0]);
+        Array.prototype.indexOf4Obj = function( ard ){
+            var arr = this;
+            for( var i =0; i < arr.length ; i ++ ){
+                if( arr[i].name === ard ){
+                    return i;
+                }
+            }
+        };
+        var stus =[{"name":"xiaowang","age":12},
+            {"name":"lilei","age":13},
+            {"name":"Hanmeimei","age":13},
+            {"name":"xiaowang","age":12}];
+        var s = stus.filter(function( item, index, self ){
+            return self.indexOf4Obj(item.name) === index;
+        });
+        console.log(s);
+    })('realize');
 
+    //============= some ===============
+    (function(){
+        log(arguments[0]);
+        var stus =[{"name":"xiaowang","age":12},
+            {"name":"lilei","age":13},
+            {"name":"Hanmeimei","age":13},
+            {"name":"xiaowang","age":12}];
+        var ind = -1 ;
+        stus.some( function(item, index, self){
+            ind = index;
+            return item.name === 'lilei';
+        } );
+
+        console.log(ind);
+
+        var stus_fi = stus.filter(function( item ,index , self ){
+            var ind = null;
+            self.some(function( itemsome ,indsome, selfsome ){
+                ind = indsome;
+                return itemsome.name === item.name;
+            });
+
+            return ind === index;
+        });
+        console.log(stus_fi);
+
+        Array.prototype.defilter = function( obj ){
+            var arr = this;
+            var arrfi = arr.filter(function( itfi, infi, selfi ){
+                var ind = null;
+                selfi.some(function( itsome, insome, selfsome ){
+                    return itfi['name'] === insome['name'] &&
+                           itfi['age'] === insome['age'];
+                });
+                return ind === infi;
+            });
+
+            return arrfi;
+        };
+
+        var stusfi = stus.defilter([ "name", "age" ]);
+        console.log(stusfi);
+    })('some');
 })();
