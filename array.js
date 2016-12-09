@@ -209,5 +209,29 @@
 
         var stusfi = stus.defilter([ "name", "age" ]);
         console.log(stusfi);
+
+
+
     })('some');
+
+    //===============filter the is-enable=============
+    (function(){
+        log(arguments[0]);
+        var full_device_list = [
+            {"device-name":"320xfe1","is-enable":true},
+            {"device-name":"320xfe2","is-enable":false},
+            {"device-name":"320xfe3","is-enable":false},
+            {"device-name":"320xfe4","is-enable":false},
+            {"device-name":"320xfe5","is-enable":false},
+            {"device-name":"320xfe6","is-enable":true},
+            {"device-name":"320xfe7","is-enable":true},
+            { "device-name":"320xfe8","is-enable":false}
+        ];
+
+        var s = full_device_list.filter(function( item, index, self ){
+            return item['is-enable'];
+        });
+        console.log(s);
+
+    })('filter the is-enable');
 })();
