@@ -209,9 +209,6 @@
 
         var stusfi = stus.defilter([ "name", "age" ]);
         console.log(stusfi);
-
-
-
     })('some');
 
     //===============filter the is-enable=============
