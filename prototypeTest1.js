@@ -81,4 +81,68 @@
         console.log(Person.prototype.isPrototypeOf(stu));
         console.log(Object.prototype.isPrototypeOf(stu));
     })('prototye chain');
+    //================原型对象定义属性所引发的问题=============
+    (function(){
+        log(arguments[0]);
+        // 在原型对象中定义属性。尤其是引用类型属性。会造成很大困扰。
+        var Person = function(){
+            this.name = "person";
+            this.age = 32;
+        };
+
+        Person.prototype.sayName = function(){
+            console.log(this.name);
+        };
+        Person.prototype.sayAge = function(){
+            console.log(this.age);
+        };
+        Person.prototype.friends = ['a'];
+
+        var p1 = new Person();
+        var p2 = new Person();
+        p1.friends.push('b');
+        console.log(p2.friends)
+
+       /* Person.prototype = {
+            sayName : function(){},
+            sayAge : function(){},
+            friends : []
+        };*/
+        //conclusion: do not define property in prototype object
+    })('define property in protype obj');
+    //1.原型链继承
+    (function(){
+        log(arguments[0]);
+        var Person = function(){
+            this.name = "person";
+            this.age = 32;
+            this.friends = ['aaa'];
+        };
+        Person.prototype.sayName = function(){
+            console.log(this.name);
+        };
+        Person.prototype.sayAge = function(){
+            console.log(this.age);
+        };
+        var Student = function(){
+            this.level = '5';
+        }
+
+        //!!!!!!!!!!!!!!!!!!!!!!( 原型对象中的属性不要有引用类型！！！！)
+        Student.prototype = new Person();
+        //!!!!!!!!!!!!!!!!!!!!!!
+        Student.prototype.sayLevel = function(){ console.log(this.level); };
+
+        var s = new Student();
+        s.sayName();
+        s.sayLevel();
+        console.log(s.friends);
+        s.friends.push('bbb');
+
+        var s1 = new Student();
+        console.log(s1.friends);
+    })('1.原型链继承');
+
+
+
 })();
