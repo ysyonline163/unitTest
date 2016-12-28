@@ -142,7 +142,62 @@
         var s1 = new Student();
         console.log(s1.friends);
     })('1.原型链继承');
+    //2.借用构造函数继承
+    (function(){
+        log(arguments[0]);
+        var Person = function(){
+            this.name = "person";
+            this.age = 32;
+            this.friends = ['aaa'];
+        };
 
+        Person.prototype.sayName =function(){console.log(this.name);};
+        var Student = function(){
+            Person.call( this );
+            this.level = '5';
+        }
+        var st = new Student();
 
+        st.friends.push('bbb');
+        console.log(st.friends);
+        var st1 = new Student();
+        console.log(st1.friends);
+
+        console.log(st.sayName === undefined);
+        /* 构造函数继承又被称为经典继承
+        *
+        * 使用调用构造函数。把父类的属性绑定到子类上。
+        *
+        * 缺点：1.方法如果定义在父类原型中，子类不可见！！！！console.log(st.sayName === undefined);
+        *
+        *      2.方法如果定义在父类中。方法的复用不好！！！
+        * */
+    })('2.借用构造函数继承');
+    //3.组合继承
+    (function(){
+        log(arguments[0]);
+        /* 组合继承 -----> 原型链 + 借用构造调用 */
+        var Person = function( name, age ){
+            this.name = name ;
+            this.age = age;
+            this.friends = ['aaa'];
+        };
+        Person.prototype.sayName =function(){console.log(this.name);};
+        Person.prototype.sayAge = function(){console.log(this.age);};
+
+        var Student = function(){
+            Person.call( this, 'p1', 32 ); // 2.使用 借用构造函数  this 代表student实例。把 p1, 32 绑定到Student实例
+            this.level = 5;
+        };
+        Student.prototype = new Person('p2', 100 ); // 1.使用 原型链, 把 p2 ,100 绑定到Student原型
+        //Person.call( Student.prototype, 'p2', 100 );
+        Student.prototype.sayLevel = function(){console.log(this.level)};
+
+        var stu = new Student();
+        stu.sayName();
+        stu.sayAge();
+        stu.sayLevel();
+
+    })('3.组合继承');
 
 })();
