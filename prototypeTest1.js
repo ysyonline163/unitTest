@@ -199,5 +199,59 @@
         stu.sayLevel();
 
     })('3.组合继承');
+    //3.组合继承
+    (function(){
+        log(arguments[0]);
+        //var Person = function(){ this.name = 'ssss'; this.age = 23; this.friends=['A'];};
+        var person = { name: "json", friends: ['A','B']};
 
+        var object = function( o ){
+            function F(){};
+            F.prototype = o;
+            return new F();
+        };
+
+        var p1 = object( person );
+        console.log(p1.name);
+        console.log(p1.friends);// ['A','B']
+        p1.friends.push('C');
+
+        var p2 = object( person );
+        p2.friends.push('D');
+        console.log(p2.friends);// ['A','B','C','D'];
+        console.log(person.friends);// ['A','B','C','D'];
+        /*
+        * 使用原型继承为浅克隆。 尤其是对引用类型的复制。会影响到父对象的数组。
+        * */
+        // IE9,谷歌。。。使用Object.create() 浅度复制一个对象。
+        var p3 = Object.create( p2 );
+        p3.friends.push('E');
+        console.log(person.friends);//[ 'A', 'B', 'C', 'D', 'E' ]
+        /*
+        * 有点： 方便简单。无需创建新的自定义类型的函数
+        * */
+        //=============一些测试==========
+        console.log("--------一些测试-----------");
+        console.log(Object.getPrototypeOf(p1) === person );
+        console.log(Object.getPrototypeOf( person) === Object.prototype );
+        console.log(Object.keys(p1)); //[]
+        console.log(Object.getOwnPropertyNames(p1)); //[]
+        for( var prop in p1 ){
+            if( p1.hasOwnProperty(prop)) console.log("-->Own:"+prop );
+            else console.log("-->totype:"+prop);
+        }
+
+        var a = ["a","b","c",[1,2,4] ];
+        console.log(a.length);console.log(a[1]);
+        var b = Object.create(a);
+        console.log(b.length);console.log(b[3]);
+        for( var i = 0; i < b.length; i++ ){
+            console.log("---" + b[i]);
+        }
+
+        var s = Array.prototype.slice.call(a);
+        console.log(s);
+    })('4.原型继承');
+    //5.寄生式继承
+    //6.寄生组合式继承
 })();
