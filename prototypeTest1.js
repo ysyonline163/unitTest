@@ -260,6 +260,13 @@
             F.prototype = o;
             return new F();
         }
+        function cloneAnther(o){
+            var clone = object( o );
+            clone.sayHi = function(){ console.log("Hi"); };
+            return clone;
+        }
+
+
         var Person = function( name, age ){
             this.name = name ;
             this.age = age;
@@ -269,8 +276,48 @@
         Person.prototype.sayAge = function(){console.log(this.age);};
 
         var p = new Person('sa', 32);
-        var stu = clone(p);
-        console.log(p.friends);
+        p.sayName();
+        var p_clone = cloneAnther( p );
+
+        p_clone.sayName();
+        p_clone.sayHi();
+
+        console.log( Object.getOwnPropertyNames( p_clone ));
     })('5.寄生式继承');
     //6.寄生组合式继承
+    (function(){
+        log(arguments[0]);
+        var Person = function( name, age ){
+            this.name = name ;
+            this.age = age;
+            this.friends = ['aaa'];
+        };
+        Person.prototype.sayName =function(){console.log(this.name);};
+        Person.prototype.sayAge = function(){console.log(this.age);};
+
+        var Student = function( name, age, level ){
+            Person.call( this, name, age );
+            this.level = level;
+        };
+        Student.prototype.sayHi = function(){ console.log('Hi'); };
+        Student.prototype.sayLevel = function(){ console.log( this.level ); };
+
+        // fn2 exthend from fn1
+        function inherbit( fn1, fn2 ){
+            var prototype = Object.create( fn1.prototype );
+            prototype.constructor = fn2;
+            fn2.prototype = prototype;
+        }
+
+        inherbit( Person, Student );
+
+        var p = new Person( 'p', 23 );
+        var s = new Student('s', 32, 5 );
+        s.sayName();
+        s.sayAge();
+        console.log(s.sayHi === undefined );
+        //s.sayLevel();
+
+
+    })('6.寄生组合式继承');
 })();
