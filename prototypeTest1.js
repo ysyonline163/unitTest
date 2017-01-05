@@ -199,7 +199,7 @@
         stu.sayLevel();
 
     })('3.组合继承');
-    //3.组合继承
+    //4.原型继承
     (function(){
         log(arguments[0]);
         //var Person = function(){ this.name = 'ssss'; this.age = 23; this.friends=['A'];};
@@ -253,5 +253,24 @@
         console.log(s);
     })('4.原型继承');
     //5.寄生式继承
+    (function(){
+        log(arguments[0]);
+        function object( o ){
+            function F(){};
+            F.prototype = o;
+            return new F();
+        }
+        var Person = function( name, age ){
+            this.name = name ;
+            this.age = age;
+            this.friends = ['aaa'];
+        };
+        Person.prototype.sayName =function(){console.log(this.name);};
+        Person.prototype.sayAge = function(){console.log(this.age);};
+
+        var p = new Person('sa', 32);
+        var stu = clone(p);
+        console.log(p.friends);
+    })('5.寄生式继承');
     //6.寄生组合式继承
 })();
